@@ -1,127 +1,38 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101827">
-<title>متجري | متجر إلكتروني</title>
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#10120f"><title>CLOTHY | Wear your way</title>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#172033;--muted:#667085;--line:#e7eaf0;--bg:#f6f7fb;--brand:#176b55;--accent:#d7f1e7}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif}
-header{background:#101827;color:white;padding:22px max(18px,calc((100% - 1120px)/2));display:flex;justify-content:space-between;align-items:center;gap:16px}
-.logo{font-size:22px;font-weight:800}.sub{font-size:12px;color:#cbd5e1;margin-top:5px}
-.pill{border:1px solid #ffffff35;border-radius:30px;padding:9px 13px;font-size:12px}
-main{max-width:1120px;margin:30px auto;padding:0 18px}.intro{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:22px}
-h1{font-size:28px;margin:0 0 8px}.muted{color:var(--muted);line-height:1.7;font-size:14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
-.card{background:white;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 8px 24px #14213d08}
-.card img{width:100%;height:210px;object-fit:cover;background:#edf1f5}.cardbody{padding:15px}.name{font-weight:700;font-size:17px}.price{color:var(--brand);font-weight:800;margin:9px 0 13px}
-button{border:0;background:var(--brand);color:white;border-radius:11px;padding:12px 16px;font-weight:700;cursor:pointer;font-size:14px}
-button.secondary{background:#eef5f2;color:var(--brand)}button:disabled{opacity:.5;cursor:not-allowed}
-.card button{width:100%}.hidden{display:none!important}
-.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:22px;max-width:720px;margin:24px auto}
-.back{background:transparent;color:var(--brand);padding:0 0 14px}
-.summary{display:flex;gap:14px;align-items:center;background:#f7faf9;padding:12px;border-radius:14px;margin:12px 0 18px}
-.summary img{width:84px;height:84px;object-fit:cover;border-radius:11px}
-.total{font-size:23px;color:var(--brand);font-weight:900;margin-top:6px}
-form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}
-label{font-size:13px;font-weight:700}input,select,textarea{width:100%;padding:13px;border:1px solid #d8dee8;border-radius:10px;background:#fff;font:inherit;font-size:14px;color:var(--ink)}
-input:focus,select:focus{outline:2px solid #b6e4d3;border-color:var(--brand)}
-.hint{font-size:12px;color:var(--muted);line-height:1.6}.status{padding:12px;border-radius:10px;background:#effaf4;color:#176b55;font-size:13px;margin-top:14px}
-footer{text-align:center;color:var(--muted);font-size:12px;padding:35px 16px}
-@media(max-width:600px){header{align-items:flex-start;flex-direction:column}.intro{display:block}h1{font-size:23px}form{grid-template-columns:1fr}.field.full{grid-column:auto}.panel{padding:16px}}
-</style>
-</head>
-<body>
-<header><div><div class="logo" id="storeName">متجري</div><div class="sub">تسوّق بسهولة • التوصيل إلى ولايات الجزائر</div></div><div class="pill">الدفع عند الاستلام</div></header>
-<main>
-<section id="catalog">
- <div class="intro"><div><h1>اكتشف منتجاتنا</h1><div class="muted">اختر المنتج الذي يعجبك، ثم املأ معلومات التوصيل لإرسال طلبك.</div></div><div class="hint" id="locationStatus">جارٍ تحميل قائمة الولايات والبلديات…</div></div>
- <div class="grid" id="products"></div>
-</section>
-<section id="checkout" class="panel hidden">
- <button class="back" type="button" onclick="backToCatalog()">← العودة إلى المنتجات</button>
- <h2 style="margin:0 0 5px">إتمام الطلب</h2><div class="muted">أدخل معلوماتك بدقة حتى يتمكن المتجر من التواصل معك.</div>
- <div class="summary"><img id="chosenImage" alt=""><div><div id="chosenName" class="name"></div><div id="chosenPrice" class="total"></div></div></div>
- <form id="orderForm">
-  <div class="field"><label for="first">الاسم</label><input id="first" name="first" autocomplete="given-name" required maxlength="40" placeholder="اسمك"></div>
-  <div class="field"><label for="last">اللقب</label><input id="last" name="last" autocomplete="family-name" required maxlength="40" placeholder="لقبك"></div>
-  <div class="field full"><label for="phone">رقم الهاتف</label><input id="phone" name="phone" type="tel" inputmode="tel" required pattern="(0[5-7][0-9]{8}|\\+213[5-7][0-9]{8})" placeholder="05XXXXXXXX"><div class="hint">مثال: 0550123456</div></div>
-  <div class="field"><label for="wilaya">الولاية</label><select id="wilaya" required><option value="">اختر الولاية</option></select></div>
-  <div class="field"><label for="commune">البلدية</label><select id="commune" required disabled><option value="">اختر الولاية أولاً</option></select></div>
-  <div class="field full"><label for="address">العنوان بالتفصيل (اختياري)</label><input id="address" maxlength="120" placeholder="الحي، الشارع، رقم المنزل…"></div>
-  <div class="field"><label for="quantity">الكمية</label><select id="quantity"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
-  <div class="field"><label>طريقة الدفع</label><input value="الدفع عند الاستلام" disabled></div>
-  <div class="field full"><button id="submitBtn" type="submit">إرسال الطلب عبر واتساب</button><div class="hint">سيتم فتح واتساب برسالة جاهزة لتأكيد الطلب مع المتجر.</div></div>
- </form>
- <div id="result" class="status hidden"></div>
-</section>
-</main>
-<footer>© <span id="year"></span> <span id="footerName">متجري</span> — جميع الحقوق محفوظة</footer>
+:root{--bg:#f5f4ef;--ink:#171914;--muted:#777b70;--lime:#d8ff55;--dark:#10120f;--line:#e6e6de}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Alexandria,Tahoma,sans-serif}.top{background:var(--dark);color:#e9eddf;text-align:center;padding:9px;font-size:11px}header{position:sticky;top:0;z-index:10;background:#f5f4efed;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}nav{max-width:1160px;margin:auto;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}.brand{display:flex;gap:10px;align-items:center;font:800 24px Manrope,sans-serif;letter-spacing:2px}.mark{background:var(--lime);width:38px;height:38px;border-radius:13px;display:grid;place-items:center;transform:rotate(-7deg)}.links{display:flex;gap:25px;font-size:12px;color:#555}.navbtn,.btn{background:var(--dark);color:white;border:0;border-radius:30px;padding:12px 19px;font-size:11px;font-weight:700;cursor:pointer}.wrap{max-width:1160px;margin:auto;padding:0 20px}.hero{margin:25px auto 60px;background:#171b13;color:white;border-radius:28px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;min-height:400px}.copy{padding:55px 7%;align-self:center}.eyebrow{color:var(--lime);font-size:11px;letter-spacing:1px}.hero h1{font-size:clamp(38px,5vw,65px);line-height:1.2;margin:20px 0}.hero h1 span{color:var(--lime)}.hero p{color:#c4cabb;font-size:13px;line-height:2;max-width:410px}.actions{display:flex;gap:10px;margin-top:25px}.lime{background:var(--lime);color:#111;border:0;border-radius:30px;padding:14px 22px;font-weight:800;font-size:12px;cursor:pointer}.outline{border:1px solid #ffffff66;color:white;background:transparent;border-radius:30px;padding:13px 20px}.visual{position:relative;min-height:380px;overflow:hidden}.visual:before{content:"";position:absolute;width:340px;height:340px;border-radius:50%;background:var(--lime);top:9%;right:18%}.visual img{position:absolute;width:100%;height:100%;object-fit:cover;mix-blend-mode:normal;opacity:.9}.float{position:absolute;bottom:25px;right:10%;background:white;color:#111;padding:12px 15px;border-radius:12px;font-size:10px;font-weight:800;animation:float 4s ease-in-out infinite}
+.section{padding:0 0 65px}.head{display:flex;justify-content:space-between;align-items:end;margin-bottom:22px}.kicker{font:800 10px Manrope,sans-serif;color:#777;letter-spacing:1.5px}.head h2{font-size:27px;margin:8px 0 0}.head p{font-size:11px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card{background:white;border:1px solid var(--line);border-radius:19px;overflow:hidden;opacity:0;transform:translateY(18px);transition:transform .35s,opacity .5s,box-shadow .3s}.card.show{opacity:1;transform:translateY(0)}.card:hover{transform:translateY(-7px);box-shadow:0 18px 35px #1112}.photo{height:210px;background:#ecece6;position:relative;overflow:hidden}.photo img{width:100%;height:100%;object-fit:cover;transition:transform .6s}.card:hover img{transform:scale(1.07)}.tag{position:absolute;top:12px;right:12px;background:var(--lime);padding:7px 10px;border-radius:20px;font-size:9px;font-weight:800}.info{padding:15px}.name{font-size:13px;font-weight:800}.desc{font-size:10px;color:var(--muted);line-height:1.8;margin-top:5px;min-height:34px}.gift{background:#f2f8e8;border:1px dashed #b9d878;color:#53672e;padding:9px;border-radius:9px;font-size:10px;margin-top:9px}.row{display:flex;justify-content:space-between;align-items:center;margin:13px 0}.price{font:800 18px Manrope,sans-serif;direction:ltr}.stock{font-size:9px;color:#47703b;background:#eff8e8;padding:6px 9px;border-radius:20px}.order{width:100%;background:var(--dark);color:white;border:0;border-radius:11px;padding:12px;font-weight:700;font-size:11px;cursor:pointer}.perks{background:#e9eddf;border-radius:22px;padding:25px;display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:65px}.perk{font-size:11px;font-weight:700}.perk span{display:block;font-size:9px;color:var(--muted);font-weight:400;margin-top:5px}footer{background:var(--dark);color:white;padding:30px 20px}footer .wrap{display:flex;justify-content:space-between;align-items:center}footer p{font-size:10px;color:#aeb5a5}
+.modal{display:none;position:fixed;inset:0;background:#000b;z-index:30;align-items:center;justify-content:center;padding:15px}.modal.open{display:flex;animation:fade .2s}.dialog{background:#f8f8f3;border-radius:22px;padding:22px;width:min(570px,100%);max-height:94vh;overflow:auto;animation:rise .3s}.dialogtop{display:flex;justify-content:space-between;align-items:center}.close{border:0;border-radius:50%;width:34px;height:34px;font-size:19px}.summary{display:flex;gap:12px;background:white;padding:10px;border-radius:13px;margin:15px 0}.summary img{width:82px;height:82px;object-fit:cover;border-radius:10px}.summary b{font-size:12px}.sumprice{font:800 18px Manrope;margin-top:7px}form{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{display:flex;flex-direction:column;gap:6px}.full{grid-column:1/-1}label{font-size:10px;font-weight:700}input,select{padding:12px;border:1px solid #ddd;border-radius:10px;font:11px Alexandria;background:white}.submit{grid-column:1/-1;background:var(--dark);color:white;border:0;border-radius:11px;padding:14px;font-size:12px;font-weight:800}.hint{font-size:9px;color:var(--muted);line-height:1.7}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;background:#151a12;color:white;padding:12px 17px;border-radius:30px;font-size:11px;transition:.3s;z-index:50}.toast.show{opacity:1;transform:translate(-50%,0)}
+@keyframes float{50%{transform:translateY(-10px)}}@keyframes fade{from{opacity:0}to{opacity:1}}@keyframes rise{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+@media(max-width:800px){.hero{grid-template-columns:1fr}.copy{padding:38px 7% 10px}.visual{min-height:250px}.visual:before{width:250px;height:250px;right:25%;top:0}.grid{grid-template-columns:repeat(2,1fr)}.perks{grid-template-columns:1fr}.links{display:none}}
+@media(max-width:520px){.wrap{padding:0 13px}.hero{margin-top:14px;border-radius:22px}.hero h1{font-size:39px}.photo{height:155px}.info{padding:11px}.head h2{font-size:22px}.head p{display:none}.dialog{padding:16px}form{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style></head><body>
+<div class="top">CLOTHY ✦ ستايلك يبدأ من هنا ✦ الدفع عند الاستلام</div>
+<header><nav><a class="brand" href="#"><span class="mark">C</span>CLOTHY</a><div class="links"><a href="#home">الرئيسية</a><a href="#products">المنتجات</a><a href="#why">مميزاتنا</a></div><a class="navbtn" href="#products">تسوّق الآن ↙</a></nav></header>
+<main class="wrap"><section class="hero" id="home"><div class="copy"><div class="eyebrow">✦ NEW SEASON / NEW ENERGY</div><h1>خليك على<br><span>ستايلك.</span></h1><p>قطع مختارة بعناية، تفاصيل تصنع الفرق، وتجربة تسوّق سهلة حتى باب دارك.</p><div class="actions"><a class="lime" href="#products">اكتشف المجموعة</a><a class="outline" href="#why">اكتشف CLOTHY</a></div></div><div class="visual"><img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1200&q=85" alt="حذاء رياضي"><div class="float">YOUR DAILY LOOK ✦</div></div></section>
+<section class="section" id="products"><div class="head"><div><div class="kicker">THE CLOTHY EDIT</div><h2>اختار اللوك تاعك</h2></div><p>منتجات مختارة ليك — اطلب بسهولة عبر واتساب</p></div><div class="grid" id="grid"></div></section>
+<section class="perks" id="why"><div class="perk">🚚 توصيل حتى لباب دارك<span>اختار ولايتك وبلديتك عند الطلب</span></div><div class="perk">🎁 هدايا مع عروض مختارة<span>الجوارب هدية مع عرض الحذاء</span></div><div class="perk">🤝 الدفع عند الاستلام<span>أكد طلبك عبر واتساب</span></div></section></main>
+<footer><div class="wrap"><div class="brand"><span class="mark">C</span>CLOTHY</div><p>Wear your way. Own your style.<br>© <span id="year"></span> CLOTHY</p></div></footer>
+<div class="modal" id="modal"><div class="dialog"><div class="dialogtop"><div><div class="kicker">ONE LAST STEP</div><h3 style="margin:5px 0">إتمام الطلب</h3></div><button class="close" onclick="closeModal()">×</button></div><div class="summary"><img id="pimg" alt=""><div><b id="pname"></b><div class="sumprice" id="pprice"></div><div class="hint" id="gifttext"></div></div></div>
+<form id="order"><div class="field"><label>الاسم</label><input id="first" required maxlength="40" placeholder="اسمك"></div><div class="field"><label>اللقب</label><input id="last" required maxlength="40" placeholder="لقبك"></div><div class="field full"><label>رقم الهاتف</label><input id="phone" required type="tel" pattern="(0[5-7][0-9]{8}|\\+213[5-7][0-9]{8})" placeholder="05XXXXXXXX"></div><div class="field"><label>الولاية</label><select id="wilaya" required><option value="">اختر الولاية</option></select></div><div class="field"><label>البلدية</label><select id="commune" required disabled><option>اختر الولاية أولاً</option></select></div><div class="field full"><label>العنوان (اختياري)</label><input id="address" placeholder="الحي والشارع"></div><div class="field"><label>الكمية</label><select id="qty"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div class="field"><label>الدفع</label><input value="عند الاستلام" disabled></div><button class="submit" type="submit">تأكيد الطلب عبر واتساب ↗</button><div class="hint full">سيفتح واتساب برسالة جاهزة؛ يجب على الزبون الضغط على إرسال لإتمام الطلب.</div></form></div></div><div class="toast" id="toast"></div>
 <script>
-/* عدّل هذه الإعدادات قبل نشر المتجر */
-const STORE_NAME = "متجري";
-const STORE_WHATSAPP = "213000000000"; // استبدله برقمك بصيغة دولية دون + أو مسافات
-const CURRENCY = "دج";
-
-/* عدّل المنتجات: الاسم، السعر، الصورة، والوصف */
-const PRODUCTS = [
- {id:1,name:"سماعات لاسلكية",price:4500,image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",description:"سماعات عملية للاستعمال اليومي"},
- {id:2,name:"ساعة أنيقة",price:3000,image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80",description:"تصميم بسيط وأنيق"},
- {id:3,name:"حقيبة يومية",price:5200,image:"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=900&q=80",description:"حقيبة للاستعمال اليومي"}
-];
-const WILAYAS_URL="https://raw.githubusercontent.com/mohamed-gp/algeria_69_wilayas/main/main.json";
-const COMMUNES_URL="https://raw.githubusercontent.com/mohamed-gp/algeria_69_wilayas/main/communes.json";
-let chosen=null, wilayas=[], communes=[];
-const money=n=>new Intl.NumberFormat("ar-DZ").format(n)+" "+CURRENCY;
-document.getElementById("storeName").textContent=STORE_NAME;
-document.getElementById("footerName").textContent=STORE_NAME;
-document.getElementById("year").textContent=new Date().getFullYear();
-function renderProducts(){
- const root=document.getElementById("products"); root.innerHTML="";
- PRODUCTS.forEach(p=>{
-  const card=document.createElement("article");card.className="card";
-  const img=document.createElement("img");img.src=p.image;img.alt=p.name;img.loading="lazy";
-  const body=document.createElement("div");body.className="cardbody";
-  const name=document.createElement("div");name.className="name";name.textContent=p.name;
-  const desc=document.createElement("div");desc.className="muted";desc.textContent=p.description||"";
-  const price=document.createElement("div");price.className="price";price.textContent=money(p.price);
-  const btn=document.createElement("button");btn.textContent="عرض المنتج واطلب";btn.onclick=()=>openProduct(p);
-  body.append(name,desc,price,btn);card.append(img,body);root.append(card);
- });
-}
-function openProduct(p){chosen=p;document.getElementById("chosenImage").src=p.image;document.getElementById("chosenName").textContent=p.name;document.getElementById("chosenPrice").textContent=money(p.price);document.getElementById("catalog").classList.add("hidden");document.getElementById("checkout").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"});}
-function backToCatalog(){document.getElementById("checkout").classList.add("hidden");document.getElementById("catalog").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"});}
-async function loadLocations(){
- const status=document.getElementById("locationStatus");
- try{
-  const [w,c]=await Promise.all([fetch(WILAYAS_URL),fetch(COMMUNES_URL)]);
-  if(!w.ok||!c.ok)throw new Error("تعذر تحميل البيانات");
-  const wd=await w.json(),cd=await c.json();
-  wilayas=wd.wilayas;communes=cd.communes;
-  const sel=document.getElementById("wilaya");
-  wilayas.sort((a,b)=>a.id-b.id).forEach(x=>{const o=document.createElement("option");o.value=x.id;o.textContent=String(x.id).padStart(2,"0")+" — "+x.name_ar;sel.append(o);});
-  status.textContent="قائمة 69 ولاية وبلدياتها جاهزة";
- }catch(e){status.textContent="تعذر تحميل الولايات. تحقق من اتصال الإنترنت ثم حدّث الصفحة.";}
-}
-document.getElementById("wilaya").addEventListener("change",e=>{
- const id=Number(e.target.value),sel=document.getElementById("commune");sel.innerHTML='<option value="">اختر البلدية</option>';
- if(!id){sel.disabled=true;return;}
- communes.filter(c=>Number(c.wilaya_id)===id).sort((a,b)=>a.name_ar.localeCompare(b.name_ar,"ar")).forEach(c=>{const o=document.createElement("option");o.value=c.name_ar;o.textContent=c.name_ar;sel.append(o);});
- sel.disabled=false;
-});
-document.getElementById("orderForm").addEventListener("submit",e=>{
- e.preventDefault();
- if(!chosen)return;
- if(STORE_WHATSAPP==="213000000000"){alert("قبل استقبال الطلبات، ضع رقم واتساب المتجر في STORE_WHATSAPP داخل ملف index.html.");return;}
- const first=document.getElementById("first").value.trim(),last=document.getElementById("last").value.trim(),phone=document.getElementById("phone").value.trim(),wid=Number(document.getElementById("wilaya").value);
- const w=wilayas.find(x=>x.id===wid),commune=document.getElementById("commune").value,qty=Number(document.getElementById("quantity").value),address=document.getElementById("address").value.trim();
- const total=chosen.price*qty;
- const message=`طلب جديد من ${STORE_NAME}%0Aالمنتج: ${chosen.name}%0Aالسعر للوحدة: ${money(chosen.price)}%0Aالكمية: ${qty}%0Aالمجموع: ${money(total)}%0Aالاسم: ${first}%0Aاللقب: ${last}%0Aالهاتف: ${phone}%0Aالولاية: ${w?.name_ar||""}%0Aالبلدية: ${commune}%0Aالعنوان: ${address||"غير محدد"}`;
- window.open(`https://wa.me/${STORE_WHATSAPP}?text=${message}`,"_blank","noopener");
- document.getElementById("result").classList.remove("hidden");
- document.getElementById("result").textContent="تم تجهيز طلبك في واتساب. اضغط إرسال داخل واتساب لإيصاله إلى المتجر.";
-});
-renderProducts();loadLocations();
-</script>
-</body></html>
+/* غيّر الرقم إلى رقم واتساب متجرك بصيغة 213 دون + */
+const STORE_WHATSAPP="213000000000",CURRENCY="DA";
+const PRODUCTS=[
+{id:"shoe",name:"حذاء رياضي ستايل Nike",desc:"حذاء يومي بتصميم رياضي مريح.",price:2900,stock:10,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85",tag:"BEST OFFER",gift:"جوارب رياضية هدية مع كل حذاء"},
+{id:"cap",name:"كاسكيطة ستريت",desc:"إضافة بسيطة تكمل اللوك اليومي.",price:1500,stock:8,image:"https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=900&q=85",tag:"NEW"},
+{id:"bag",name:"ساك رياضي",desc:"عملي للرياضة والخروجات اليومية.",price:2400,stock:6,image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=85",tag:"ESSENTIAL"},
+{id:"watch",name:"ساعة ستايل",desc:"لمسة أنيقة تكمل إطلالتك.",price:2200,stock:5,image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=85",tag:"STYLE PICK"}];
+let selected=null,wilayas=[],communes=[];const money=n=>new Intl.NumberFormat("fr-FR").format(n)+" "+CURRENCY;
+function render(){const root=document.getElementById("grid");PRODUCTS.forEach((p,i)=>{let c=document.createElement("article");c.className="card";c.style.transitionDelay=(i*70)+"ms";c.innerHTML=`<div class="photo"><img src="${p.image}" alt="${p.name}" loading="lazy"><span class="tag">${p.tag}</span></div><div class="info"><div class="name">${p.name}</div><div class="desc">${p.desc}</div>${p.gift?`<div class="gift">🎁 ${p.gift}</div>`:""}<div class="row"><div class="price">${money(p.price)}</div><span class="stock">${p.stock>0?"متوفر":"نفد المخزون"}</span></div><button class="order" ${p.stock<=0?"disabled":""}>${p.stock>0?"اطلب الآن":"غير متوفر"}</button></div>`;c.querySelector("button").onclick=()=>openModal(p);root.append(c)});const ob=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("show");ob.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll(".card").forEach(c=>ob.observe(c))}
+function openModal(p){selected=p;document.getElementById("pimg").src=p.image;document.getElementById("pname").textContent=p.name;document.getElementById("pprice").textContent=money(p.price);document.getElementById("gifttext").textContent=p.gift?"🎁 "+p.gift:"";document.getElementById("modal").classList.add("open");document.body.style.overflow="hidden"}
+function closeModal(){document.getElementById("modal").classList.remove("open");document.body.style.overflow=""}
+document.getElementById("modal").onclick=e=>{if(e.target.id==="modal")closeModal()};document.getElementById("qty").onchange=()=>{if(selected)document.getElementById("pprice").textContent=money(selected.price*Number(document.getElementById("qty").value))};
+async function locations(){try{let [a,b]=await Promise.all([fetch("https://raw.githubusercontent.com/mohamed-gp/algeria_69_wilayas/main/main.json"),fetch("https://raw.githubusercontent.com/mohamed-gp/algeria_69_wilayas/main/communes.json")]);if(!a.ok||!b.ok)throw 0;let x=await a.json(),y=await b.json();wilayas=x.wilayas;communes=y.communes;wilayas.sort((a,b)=>a.id-b.id).forEach(w=>{let o=document.createElement("option");o.value=w.id;o.textContent=String(w.id).padStart(2,"0")+" — "+w.name_ar;document.getElementById("wilaya").append(o)})}catch(e){toast("تعذر تحميل الولايات. تحقق من الاتصال بالإنترنت.")}}
+document.getElementById("wilaya").onchange=e=>{let s=document.getElementById("commune"),id=+e.target.value;s.innerHTML='<option value="">اختر البلدية</option>';communes.filter(c=>+c.wilaya_id===id).sort((a,b)=>a.name_ar.localeCompare(b.name_ar,"ar")).forEach(c=>{let o=document.createElement("option");o.value=c.name_ar;o.textContent=c.name_ar;s.append(o)});s.disabled=!id};
+document.getElementById("order").onsubmit=e=>{e.preventDefault();if(!selected)return;if(STORE_WHATSAPP==="213000000000"){toast("أضف رقم واتسابك في STORE_WHATSAPP داخل index.html أولاً.");return}let w=wilayas.find(x=>x.id===+document.getElementById("wilaya").value),q=+document.getElementById("qty").value,msg=`طلب جديد من CLOTHY\nالمنتج: ${selected.name}\nالسعر: ${money(selected.price)}\nالكمية: ${q}\nالمجموع: ${money(selected.price*q)}\nالهدية: ${selected.gift||"لا يوجد"}\nالاسم: ${first.value} ${last.value}\nالهاتف: ${phone.value}\nالولاية: ${w?.name_ar||""}\nالبلدية: ${commune.value}\nالعنوان: ${address.value}`;window.open("https://wa.me/"+STORE_WHATSAPP+"?text="+encodeURIComponent(msg),"_blank","noopener");toast("تم تجهيز الطلب في واتساب. اضغط إرسال لإتمامه.")};
+function toast(t){let e=document.getElementById("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),3500)}
+document.getElementById("year").textContent=new Date().getFullYear();render();locations();
+</script></body></html>
